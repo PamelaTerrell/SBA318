@@ -6,7 +6,9 @@
     <link rel = "stylesheet" href = "style.css">
     <title>Chores List</title>
     <script>
+
         async function loadTodos() {
+            
             const response = await fetch('/todos');
             const todos = await response.json();
             const list = document.getElementById('todo-list');
@@ -35,7 +37,7 @@
     <form action="" method="post"><br>
 
     <input type="text" id="task-input" placeholder="chore">
-    <button onclick="addTodo()">Add</button>
+    <button onclick="addTodo()">Add Chore</button>
     <ul id="todo-list"></ul>
         
     </form>

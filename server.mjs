@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
+
+
 const app = express();
 const PORT = 3000;
 
@@ -9,13 +11,14 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// In-memory storage for chores to do
+//storage for chores to do
 let todos = [];
 
 // Routes
 // Get all chores todos
 app.get('/todos', (req, res) => {
     res.json(todos);
+    res.redirect('/'); //not sure about this part
 });
 
 // Create a new chore todo
@@ -28,7 +31,7 @@ app.post('/todos', (req, res) => {
     };
     todos.push(newTodo);
     res.status(201).json(newTodo);
-    res.redirect('/');
+    
 });
 
 // Update a chore todo
