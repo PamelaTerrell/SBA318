@@ -9,16 +9,16 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// In-memory storage for todos
+// In-memory storage for chores to do
 let todos = [];
 
 // Routes
-// Get all todos
+// Get all chores todos
 app.get('/todos', (req, res) => {
     res.json(todos);
 });
 
-// Create a new todo
+// Create a new chore todo
 app.post('/todos', (req, res) => {
     const newTodo = {
         id: todos.length + 1, // Simple ID generation
@@ -31,7 +31,7 @@ app.post('/todos', (req, res) => {
     res.redirect('/');
 });
 
-// Update a todo
+// Update a chore todo
 app.put('/todos/:id', (req, res) => {
     const todo = todos.find(t => t.id === parseInt(req.params.id));
     if (!todo) {
@@ -41,7 +41,7 @@ app.put('/todos/:id', (req, res) => {
     res.json(todo);
 });
 
-// Delete a todo
+// Delete a todo- this part might not work
 app.delete('/todos/:id', (req, res) => {
     const index = todos.findIndex(t => t.id === parseInt(req.params.id));
     if (index === -1) {
@@ -50,6 +50,12 @@ app.delete('/todos/:id', (req, res) => {
     todos.splice(index, 1);
     res.sendStatus(204);
 });
+
+
+
+
+
+
 
 // Start the Server
 app.listen(PORT, () => {
