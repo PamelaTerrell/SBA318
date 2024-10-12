@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Chores List</title>
     <script>
-
         async function loadTodos() {
-            
             const response = await fetch('/todos');
             const todos = await response.json();
             const list = document.getElementById('todo-list');
@@ -20,27 +18,38 @@
             });
         }
 
-        async function addTodo() {
+        async function addTodo(event) {
+            event.preventDefault(); // Prevent form submission
+
             const task = document.getElementById('task-input').value;
-            await fetch('/todos', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ task })
-            });
-            document.getElementById('task-input').value = '';
-            loadTodos();
+            if (task) {
+                // Display the task immediately
+                const list = document.getElementById('todo-list');
+                const newItem = document.createElement('li');
+                newItem.textContent = task;
+                list.appendChild(newItem);
+
+                // Clear the input field
+                document.getElementById('task-input').value = '';
+
+                // Send the task to the server
+                await fetch('/todos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ task })
+                });
+                
+                loadTodos(); // Reload the list to include any server-side changes
+            }
         }
     </script>
 </head>
 <body onload="loadTodos()">
     <h1>Chores List</h1>
-    <form action="" method="post"><br>
-
-    <input type="text" id="task-input" placeholder="chore">
-    <button onclick="addTodo()">Add Chore</button>
-    <ul id="todo-list"></ul>
-        
+    <form onsubmit="addTodo(event)">
+        <input type="text" id="task-input" placeholder="chore" required>
+        <button type="submit">Add Chore</button>
     </form>
-
+    <ul id="todo-list"></ul>
 </body>
 </html>
