@@ -1,24 +1,20 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-
-
 const app = express();
 const PORT = 3000;
-
 
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//storage for chores to do
+// Storage for chores to do
 let todos = [];
 
 // Routes
-// Get all chores todos
+// Get all chores todo
 app.get('/todos', (req, res) => {
-    res.json(todos);
-    res.redirect('/'); //not sure about this part
+    res.json(todos); // Return the list of todos
 });
 
 // Create a new chore todo
@@ -27,11 +23,9 @@ app.post('/todos', (req, res) => {
         id: todos.length + 1, // Simple ID generation
         task: req.body.task,
         completed: false,
-        
     };
     todos.push(newTodo);
     res.status(201).json(newTodo);
-    
 });
 
 // Update a chore todo
@@ -44,28 +38,17 @@ app.put('/todos/:id', (req, res) => {
     res.json(todo);
 });
 
-// Delete a todo- this part might not work
+// Delete a chore
 app.delete('/todos/:id', (req, res) => {
     const index = todos.findIndex(t => t.id === parseInt(req.params.id));
     if (index === -1) {
         return res.status(404).send('Todo not found');
     }
     todos.splice(index, 1);
-    res.sendStatus(204);
+    res.sendStatus(204); // No content
 });
 
 
-
-
-
-
-
-// Start the Server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-
-
-
-
